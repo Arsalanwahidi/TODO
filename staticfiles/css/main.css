@@ -1,0 +1,27 @@
+#container{
+    margin-top: 50px;
+}
+#sticky{
+    position:sticky ;
+    top: 0;
+    z-index: 1;
+}
+
+[data-title]:hover:after {
+    visibility: visible;
+}
+  
+[data-title]:after {
+    content: attr(data-title);
+    background-color: #f9f9f4;    
+    color: #000;
+    font-size: 70%;
+    position: absolute;
+    width: 100px;
+    padding: 4px 8px 4px 8px;
+    border-radius: 4px;
+    visibility: hidden;
+}
+
+
+

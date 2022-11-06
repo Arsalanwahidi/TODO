@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'js/jquery_uncom.js' %}">
+    <link rel="stylesheet" href="{% static 'css/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Add Task</title>
+</head>
+<body>
+   <div class="container" id="container">
+        <div class="row d-flex justify-content-center" id="sticky">
+            <div class="col-lg-6">
+                <div class="card card-body form-group">
+                    <h1 class="display-2 text-muted">Todo List</h1>
+
+                    <form action="/" method="post">
+                        {% csrf_token %}
+                        <label for="id_name" class="text-muted">Add Task</label><br>
+                        {{form.name}}
+                        <input type="submit" value="ADD" class="bg-secondary rounded border-1 text-dark" style="width: 80px">
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+
+    {% for task in tasks  %}
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-6">
+                <div class="card card-body">
+                    <div class="list-group">
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <ul class="list-inline">
+                            <li class="list-inline-item"><a data-title="Click it to update" class="rounded text-muted page-link" href="{% url 'update' task.id %}">{{task}}</a></li>
+                            <li class="list-inline-item"><a class="rounded text-muted page-link" href="{% url 'delete' task.id %}">Delete</a></li>
+                            <li class="list-inline-item">
+                            {% if task.status %}
+                                <span class="badge bg-secondary rounded-pill">DONE</span>
+                            {% endif %}
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+   </div>
+</body>
+<script>
+    document.getElementById('id_name').value = '';
+
+    document.getElementById('delete_id').onclick =()=> {
+        let confirmAction = confirm("Are you sure to delete the task?");
+        if (confirmAction) {
+          $(document).ready(()=>{
+
+            $.ajax({
+                url: "delete/"+task.id,
+                type: 'POST',
+                success: function (data, status, xhr){
+                    alert('Task Deleted')
+                },
+            });
+          });
+        } else {
+          alert("Task did not delete");
+        }
+    }    
+</script>
+<script src="{% static 'js/js/bootstrap.min.js' %}"></script>
+</html>
